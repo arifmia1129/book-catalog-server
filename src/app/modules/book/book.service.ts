@@ -117,7 +117,7 @@ export const deleteBookByIdService = async (
 
   if (isBookExist.user !== userEmail) {
     throw new ApiError(
-      "Only can update book info that you added",
+      "Only can delete book info that you added",
       httpStatus.FORBIDDEN,
     );
   }
