@@ -5,7 +5,7 @@ import { verifyAndDecodeToken } from "../../helpers/jwtHelper";
 import config from "../../config";
 import { Secret } from "jsonwebtoken";
 
-const auth = (...authorizedRole: Array<string>) => {
+const auth = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.headers.authorization;
@@ -20,11 +20,8 @@ const auth = (...authorizedRole: Array<string>) => {
         config.jwt.secret as Secret,
       );
 
-      if (!authorizedRole.includes(verifiedUser.role)) {
-        throw new ApiError(
-          "You are not authorized to access this future",
-          httpStatus.FORBIDDEN,
-        );
+      if (!verifiedUser.email) {
+        throw new ApiError("Invalid user information", httpStatus.FORBIDDEN);
       }
 
       req.user = verifiedUser;

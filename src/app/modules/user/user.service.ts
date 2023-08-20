@@ -60,3 +60,13 @@ export const loginUserService = async (
     refreshToken,
   };
 };
+
+export const userProfileService = async (email: string): Promise<IUser> => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new ApiError("User doesn't exist", httpStatus.NOT_FOUND);
+  }
+
+  return user;
+};

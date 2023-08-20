@@ -12,6 +12,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -29,7 +30,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
 userSchema.methods.isUserExist = async function (
   email: string,
 ): Promise<IUser | null> {
-  return await User.findOne({ email });
+  return await User.findOne({ email }, { email: 1, password: 1 });
 };
 
 // use instance method to check user login password is right or not
