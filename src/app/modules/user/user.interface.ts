@@ -7,6 +7,25 @@ export type IUser = {
   password: string;
 };
 
+export type LoginCredential = {
+  email: string;
+  password: string;
+};
+
+export type LoginResponse = {
+  accessToken: string;
+  refreshToken?: string;
+};
+
+export type RefreshToken = {
+  accessToken: string;
+};
+
+export type ChangePassword = {
+  oldPassword: string;
+  newPassword: string;
+};
+
 export type IUserMethods = {
   isUserExist(email: string): Promise<IUser | null>;
   isPasswordMatched(
