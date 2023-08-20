@@ -66,6 +66,33 @@ export const updateBookById = catchAsync(
   },
 );
 
+export const addBookReviewById = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { comment } = req.body;
+    const result = await bookService.addBookReviewByIdService(id, comment);
+    sendResponse<string>(res, {
+      statusCode: 200,
+      success: true,
+      message: "Successfully add book review information",
+      data: result,
+    });
+  },
+);
+
+export const getBookReviewById = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result = await bookService.getBookReviewByIdService(id);
+    sendResponse<string[]>(res, {
+      statusCode: 200,
+      success: true,
+      message: "Successfully get book review information",
+      data: result,
+    });
+  },
+);
+
 export const deleteBookById = catchAsync(
   async (req: Request, res: Response) => {
     const { id } = req.params;

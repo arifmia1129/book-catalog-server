@@ -105,6 +105,35 @@ export const updateBookByIdService = async (
   return res;
 };
 
+export const addBookReviewByIdService = async (
+  id: string,
+  review: string,
+): Promise<string | undefined> => {
+  const isBookExist = await Book.findById(id);
+
+  if (!isBookExist) {
+    throw new ApiError("Book doesn't exist", httpStatus.NOT_FOUND);
+  }
+
+  isBookExist.reviews?.push(review);
+
+  await isBookExist.save();
+
+  return review;
+};
+
+export const getBookReviewByIdService = async (
+  id: string,
+): Promise<string[] | undefined> => {
+  const isBookExist = await Book.findById(id);
+
+  if (!isBookExist) {
+    throw new ApiError("Book doesn't exist", httpStatus.NOT_FOUND);
+  }
+
+  return isBookExist.reviews;
+};
+
 export const deleteBookByIdService = async (
   id: string,
   userEmail: string,

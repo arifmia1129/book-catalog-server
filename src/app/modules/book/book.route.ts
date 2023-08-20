@@ -13,6 +13,11 @@ bookRouter.post(
 );
 bookRouter.get("/", bookController.getBook);
 bookRouter
+  .route("/:id/review")
+  .post(bookController.addBookReviewById)
+  .get(bookController.getBookReviewById);
+
+bookRouter
   .route("/:id")
   .get(bookController.getBookById)
   .patch(
