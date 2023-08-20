@@ -84,7 +84,21 @@ export const getBookByIdService = async (id: string): Promise<IBook | null> => {
 export const updateBookByIdService = async (
   id: string,
   payload: Partial<IBook>,
+  userEmail: string,
 ): Promise<IBook | null> => {
+  const isBookExist = await Book.findById(id);
+
+  if (!isBookExist) {
+    throw new ApiError("Book doesn't exist", httpStatus.NOT_FOUND);
+  }
+
+  if (isBookExist.user !== userEmail) {
+    throw new ApiError(
+      "Only can update book info that you added",
+      httpStatus.FORBIDDEN,
+    );
+  }
+
   const res = await Book.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });
@@ -93,7 +107,21 @@ export const updateBookByIdService = async (
 
 export const deleteBookByIdService = async (
   id: string,
+  userEmail: string,
 ): Promise<IBook | null> => {
+  const isBookExist = await Book.findById(id);
+
+  if (!isBookExist) {
+    throw new ApiError("Book doesn't exist", httpStatus.NOT_FOUND);
+  }
+
+  if (isBookExist.user !== userEmail) {
+    throw new ApiError(
+      "Only can update book info that you added",
+      httpStatus.FORBIDDEN,
+    );
+  }
+
   const res = await Book.findByIdAndDelete(id);
   return res;
 };

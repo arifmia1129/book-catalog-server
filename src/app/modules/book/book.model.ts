@@ -3,6 +3,10 @@ import { BookModel, IBook, IBookMethods } from "./book.interface";
 
 const bookSchema = new Schema<IBook, BookModel, IBookMethods>(
   {
+    user: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
